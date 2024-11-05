@@ -1,6 +1,6 @@
 <template>
   <!-- <div>业绩台账</div> -->
-  <Dropdown>
+  <!-- <Dropdown>
     <a class="ant-dropdown-link" @click.prevent>
       业绩台账
       <DownOutlined />
@@ -25,7 +25,7 @@
         </MenuItem>
       </Menu>
     </template>
-  </Dropdown>
+  </Dropdown> -->
 
   <!--下拉选框 日历 搜索 -->
   <div class="bg-white p-4 shadow-md rounded-lg">
@@ -81,27 +81,37 @@
     </div>
   </div>
   <!-- 表格主体 -->
-  <Table :columns="config.columns" :dataSource="tableDate">
-    <template #name="{ text }">
-      <a>{{ text }}</a>
-    </template>
-    <template #action="">
-      <div @click="deleteItem">
-        <!-- <Icon icon="mingcute:more-2-fill" /> -->
-        发放提成
-      </div>
-    </template>
-  </Table>
+  <div class="overflow-auto mt-8 bg-white p-4 shadow-md rounded-lg">
+    <Table :columns="config.columns" :dataSource="tableDate" style="width: 160%">
+      <template #name="{ text }">
+        <a>{{ text }}</a>
+      </template>
+      <template #action="">
+        <div>
+          <!-- <Icon icon="mingcute:more-2-fill" /> -->
+          <div @click="showModal">发放提成</div>
+        </div>
+      </template>
+    </Table>
+    <!-- 对话框 -->
+    <div>
+      <Modal v-model:visible="visible" width="766px">
+        <ModalPage />
+      </Modal>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import { Dropdown, Menu, MenuItem, Select, Table, DatePicker } from 'ant-design-vue';
-  import { DownOutlined } from '@ant-design/icons-vue';
+  import { Select, Table, DatePicker, Modal } from 'ant-design-vue';
+  // import { DownOutlined } from '@ant-design/icons-vue';
+  //  Dropdown, Menu, MenuItem,
   import { SelectTypes } from 'ant-design-vue/es/select';
   import { Icon } from '/@/components/Icon';
   import { Moment } from 'moment';
   import { getmanageData } from '/@/api/performanceManagement';
+  import ModalPage from './ModalPage.vue';
   const mountvalue = ref<Moment>();
   const mountvalue1 = ref<Moment>();
   import config from './config';
@@ -122,9 +132,6 @@
     { value: '测试公寓楼栋', label: '测试公寓楼栋' },
   ]);
 
-  function deleteItem(e) {
-    console.log(e);
-  }
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
   };
@@ -142,4 +149,10 @@
   };
 
   const value = ref<string | undefined>(undefined);
+
+  const visible = ref(false);
+
+  const showModal = () => {
+    visible.value = true;
+  };
 </script>

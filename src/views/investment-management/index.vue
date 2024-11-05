@@ -21,7 +21,7 @@
           <TabPane key="1" tab="私客" />
           <TabPane key="2" tab="公客" />
         </Tabs>
-        <div class="ant1 w-[120px]">
+        <div class="flex justify-right; w-[500px] ml-[70%]">
           <Input placeholder="客户姓名/客户电话" />
           <Icon icon="mynaui:download" class="mt-[5px] ml-[5px]" />
         </div>

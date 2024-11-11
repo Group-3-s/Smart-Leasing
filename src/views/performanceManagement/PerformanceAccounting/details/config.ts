@@ -70,9 +70,14 @@ export default {
       dataIndex: 'commissioned',
     },
     {
-      title: '操作',
+      title: '操作1',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+    },
+    {
+      title: '操作2',
+      dataIndex: 'action1',
+      slots: { customRender: 'action1' },
     },
   ],
 };

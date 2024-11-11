@@ -35,7 +35,7 @@
           </div>
           <div class="bg-gray-100 p-4 rounded-lg">
             <div class="flex justify-between">
-              <div><strong>分佣人员：</strong>黄哈哈-13579997777</div>
+              <div><strong>分佣人员：</strong>苏军-13579997777</div>
               <div><strong>分佣职位：</strong>招商经理</div>
               <div><strong>提成总额：</strong>5000元</div>
               <div><strong>已发放提成：</strong>1000元</div>

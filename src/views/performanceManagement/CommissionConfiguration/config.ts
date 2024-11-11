@@ -1,28 +1,32 @@
 export default {
   columns: [
     {
-      title: '序号',
-      dataIndex: 'key',
+      title: '租赁提成标准',
+      dataIndex: 'commission_standard',
     },
     {
-      title: '房源信息',
-      dataIndex: 'roomname',
+      title: '行业内/行业外',
+      dataIndex: 'industry',
     },
     {
-      title: '合同周期',
-      dataIndex: 'contracttime',
+      title: '签约类型',
+      dataIndex: 'contract_type',
     },
     {
-      title: '总提成金额（元）',
-      dataIndex: 'TotalCommissionAmount',
+      title: '签约时长',
+      dataIndex: 'contract_time',
     },
     {
-      title: '已发放提成金额（元）',
-      dataIndex: 'PaidCommissionAmount',
+      title: '操作',
+      dataIndex: 'action',
+
+      slots: { customRender: 'action' },
     },
     {
-      title: '最近发放时间',
-      dataIndex: 'LatestDistributionTime',
+      title: '操作',
+      dataIndex: 'action1',
+
+      slots: { customRender: 'action1' },
     },
   ],
 };

@@ -302,6 +302,36 @@ function peopleCommission() {
     ],
   };
 }
+function CommissionAllocation() {
+  return {
+    commission: [
+      {
+        commission_standard: '全民营销',
+        industry: '行业内',
+        contract_type: '新签',
+        contract_time: '<1年',
+      },
+      {
+        commission_standard: '自主招商',
+        industry: '行业内',
+        contract_type: '新签',
+        contract_time: '1年<=X<2年',
+      },
+      {
+        commission_standard: '自主招商',
+        industry: '行业外',
+        contract_type: '新签',
+        contract_time: '2年<=X<3年',
+      },
+      {
+        commission_standard: '产业合作部网络渠道',
+        industry: '行业内',
+        contract_type: '新签',
+        contract_time: '>=3年',
+      },
+    ],
+  };
+}
 export default [
   {
     url: '/basic-api/performanceManagement',
@@ -321,6 +351,9 @@ export default [
         },
         people: {
           ...peopleCommission(),
+        },
+        commission: {
+          ...CommissionAllocation(),
         },
       });
     },

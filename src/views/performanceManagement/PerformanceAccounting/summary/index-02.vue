@@ -36,7 +36,7 @@
             />
           </div>
           <Icon icon="lucide:download" style="color: rgb(21 136 252); margin-top: 25px" />
-          <Modal v-model:visible="Inputvisible" width="680px" :closable="false">
+          <Modal v-model:visible="Inputvisible" width="680px" :closable="false" @ok="InputhandleOk">
             <!-- <template #footer>
             <Button key="back" @click="handleCancel">重置</Button>
             <Button key="submit" type="primary" :loading="loading" @click="handleOk">确定</Button>
@@ -77,9 +77,16 @@
   const mountvalue = ref<Moment>();
   const mountvalue1 = ref<Moment>();
   const Inputvisible = ref(false);
-
   const InputShowModal = () => {
     Inputvisible.value = true;
+  };
+  const Inputloading = ref<boolean>(false);
+  const InputhandleOk = () => {
+    Inputloading.value = true;
+    setTimeout(() => {
+      Inputloading.value = false;
+      Inputvisible.value = false;
+    }, 2000);
   };
 </script>
 <style scoped>

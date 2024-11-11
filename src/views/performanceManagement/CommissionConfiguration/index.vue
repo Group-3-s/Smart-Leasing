@@ -23,16 +23,21 @@
           </div>
         </div>
         <div class="w-1/2 p-4 flex justify-end">
-          <Button type="primary">新增分佣配置</Button>
+          <Button type="primary" @click="addCommissionShowModal">新增分佣配置</Button>
+        </div>
+        <div>
+          <Modal v-model:visible="addCommissionvisible" :closable="false" title="新增配置">
+            <addCommission />
+          </Modal>
         </div>
       </div>
     </div>
     <!-- 表格主体 -->
-    <div>
-      <div>签约业绩提成配置表</div>
+    <div class="p-4">
+      <div class="text-lg font-bold">签约业绩提成配置表</div>
 
       <div class="overflow-auto mt-8 bg-white p-4 shadow-md rounded-lg">
-        <Table :columns="config.columns" :dataSource="tableDate" style="width: 180%">
+        <Table :columns="config.columns" :dataSource="tableDate" style="width: 100%">
           <template #name="{ text }">
             <a>{{ text }}</a>
           </template>
@@ -42,6 +47,12 @@
               Button 
             </div>
           </template> -->
+          <template #action="">
+            <div class="text-[#1989fa]">编辑</div>
+          </template>
+          <template #action1="">
+            <div class="text-[red]">禁用</div>
+          </template>
         </Table>
       </div>
     </div>
@@ -51,13 +62,15 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import { SelectTypes } from 'ant-design-vue/es/select';
-  import { Select, Button, Table } from 'ant-design-vue';
+  import { Select, Button, Table, Modal } from 'ant-design-vue';
+  import addCommission from './component/addCommission.vue';
   import config from './config';
   import { getmanageData } from '/@/api/performanceManagement/index';
+
   const tableDate = ref();
   getmanageData()
     .then((res) => {
-      tableDate.value = res.room.room;
+      tableDate.value = res.commission.commission;
       console.log(res);
     })
     .catch((err) => {
@@ -88,4 +101,9 @@
   };
 
   const value = ref<string | undefined>('项目1');
+  const addCommissionvisible = ref(false);
+
+  const addCommissionShowModal = () => {
+    addCommissionvisible.value = true;
+  };
 </script>

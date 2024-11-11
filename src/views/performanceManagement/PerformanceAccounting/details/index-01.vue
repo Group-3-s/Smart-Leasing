@@ -52,7 +52,7 @@
                 style="position: absolute; right: 10px; top: 30px; color: rgb(21 136 252)"
               />
               <div>
-                <Modal v-model:visible="Inputvisible" :closable="false">
+                <Modal v-model:visible="Inputvisible" :closable="false" @ok="InputhandleOk">
                   <InputModal />
                 </Modal>
               </div>
@@ -82,12 +82,17 @@
       </Table>
       <!-- 对话框 -->
       <div>
-        <Modal v-model:visible="detailsVisible" width="766px" :closable="false">
+        <Modal
+          v-model:visible="detailsVisible"
+          width="766px"
+          :closable="false"
+          @ok="detailshandleOk"
+        >
           <detailsModal />
         </Modal>
       </div>
       <div>
-        <Modal v-model:visible="commissionvisible" width="766px" :closable="false">
+        <Modal v-model:visible="commissionvisible" :closable="false" @ok="commissionOk">
           <commissionModal />
         </Modal>
       </div>
@@ -148,15 +153,42 @@
   const detailsShowModal = () => {
     detailsVisible.value = true;
   };
+  const detailsloading = ref<boolean>(false);
+  const detailshandleOk = () => {
+    detailsloading.value = true;
+    setTimeout(() => {
+      detailsloading.value = false;
+      detailsVisible.value = false;
+    }, 2000);
+  };
+  //
+
   const Inputvisible = ref(false);
 
   const InputShowModal = () => {
     Inputvisible.value = true;
   };
+  const Inputloading = ref<boolean>(false);
+  const InputhandleOk = () => {
+    Inputloading.value = true;
+    setTimeout(() => {
+      Inputloading.value = false;
+      Inputvisible.value = false;
+    }, 2000);
+  };
+
   //
   const commissionvisible = ref(false);
 
   const commissionShowModal = () => {
     commissionvisible.value = true;
+  };
+  const commissionloading = ref<boolean>(false);
+  const commissionOk = () => {
+    detailsloading.value = true;
+    setTimeout(() => {
+      commissionloading.value = false;
+      commissionvisible.value = false;
+    }, 2000);
   };
 </script>

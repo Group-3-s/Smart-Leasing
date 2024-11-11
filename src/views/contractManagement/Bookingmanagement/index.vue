@@ -2,8 +2,20 @@
   <PageWrapper>
     <Card style="border-radius: 15px" :headStyle="{ borderBottom: 'unset' }">
       <div class="flex flex-row-reverse">
-        <Button type="primary">添加预定</Button>
+        <Button type="primary" @click="addBooking">添加预定</Button>
       </div>
+      <Modal v-model:visible="visible" title="添加预定" @ok="handleOk" width="800px">
+        <template #footer>
+          <span class="mr-[20px]">
+            <Checkbox :disabled="true">邀请租客签字</Checkbox>
+            <Select :disabled="true" size="small" style="width: 200px" />
+          </span>
+          <a-button key="back" @click="handleCancel">取消</a-button>
+          <a-button key="submit" type="primary" :loading="loading" @click="handleOk">确定</a-button>
+        </template>
+        <Model />
+      </Modal>
+
       <!-- 操作栏 -->
       <div class="mb-[10px]">
         <Tabs v-model:activeKey="activeKey">
@@ -25,13 +37,13 @@
       <!-- 表格主体 -->
       <Table :dataSource="dataSource" :columns="columns">
         <template #Status="{ record }">
-          {{ Status[record.status] }}
+          <div>{{ Status[record.status] }}</div>
         </template>
         <template #Type="{ record }">
           {{ Type[record.type] }}
         </template>
-        <template #caozuo="">
-          <Icon icon="mingcute:more-2-fill" />
+        <template #caozuo="{ record }">
+          <Popover :code="record.status" />
         </template>
       </Table>
       <Drawer
@@ -51,21 +63,55 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import { PageWrapper } from '/@/components/Page';
-  import { Card, Button, Tabs, TabPane, Input, Table, Drawer } from 'ant-design-vue';
+  import {
+    Card,
+    Button,
+    Tabs,
+    TabPane,
+    Input,
+    Table,
+    Drawer,
+    Modal,
+    Checkbox,
+    Select,
+  } from 'ant-design-vue';
   import Icon from '/@/components/Icon';
   import config from './config';
   import { getBookingmanagement } from '/@/api/contractManagement/Bookingmanagement/index';
+  import { getSysDict } from '../../../api/dict/dict';
   import {
     Status,
     Type,
   } from '/@/api/contractManagement/Bookingmanagement/model/Bookingmanagement';
   import { clientListResult } from '/@/api/contractManagement/Bookingmanagement/model/Bookingmanagement';
   import serch from './value/serch.vue';
+  import Popover from './value/Popover.vue';
+  import Model from './value/Modal.vue';
 
   const columns = [...config.columns];
   const dataSource = ref<clientListResult[]>([]);
   const open = ref<boolean>(false);
   const activeKey = ref('1');
+
+  getSysDict().then((res) => {
+    console.log(res);
+  });
+
+  const loading = ref(false);
+  const visible = ref(false);
+  const addBooking = () => {
+    visible.value = true;
+  };
+  const handleOk = () => {
+    loading.value = true;
+    setTimeout(() => {
+      loading.value = false;
+      visible.value = false;
+    }, 2000);
+  };
+  const handleCancel = () => {
+    visible.value = false;
+  };
 
   getBookingmanagement().then((res) => {
     dataSource.value = [...res.result];

@@ -9,7 +9,7 @@ function clientList() {
         name: '乔平',
         phone: '19863613715',
         intention: 'D',
-        status: 0,
+        status: 2,
         transactor: '杜杰',
         createTime: '2008-09-28',
         lastContactDate: '2005-04-13',

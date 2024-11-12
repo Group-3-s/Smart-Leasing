@@ -16,7 +16,7 @@
           <li><Button type="text">变更房源</Button></li>
           <li><Button type="text">签约</Button></li>
           <li><Button type="text">退定</Button></li>
-          <li><Button type="text">编辑预定信息</Button></li>
+          <li><Button type="text" @click="edit">编辑预定信息</Button></li>
           <li><Button type="text">置为无效</Button></li>
         </ul>
       </div>
@@ -26,14 +26,14 @@
           <li><Button type="text" @click="pay">邀请租客支付</Button></li>
           <li><Button type="text" @click="QR">提醒签字</Button></li>
           <li><Button type="text">线下收款</Button></li>
-          <li><Button type="text">编辑预定信息</Button></li>
+          <li><Button type="text" @click="edit">编辑预定信息</Button></li>
           <li><Button type="text">置为无效</Button></li>
         </ul>
       </div>
       <div v-if="props.code === 31004">
         <ul>
           <li><Button type="text" @click="fun">详细</Button></li>
-          <li><Button type="text">编辑预定信息</Button></li>
+          <li><Button type="text" @click="edit">编辑预定信息</Button></li>
           <li><Button type="text">置为无效</Button></li>
         </ul>
       </div>
@@ -117,18 +117,58 @@
       </div>
     </div>
   </Modal>
-  <Modal v-model:visible="Aisible" :closable="false" title="编辑预定信息" @ok="handleOk2">
-    <div class="mx-[40px] pt-[40px] h-[150px] flex flex-1">
-      <div class="inline-block"> </div>
-      <div class="inline-block ml-[20px]">
-        <div class="text-[20px]">确定要给租客[{{ people }}]发送邀请支付短信吗？ </div>
-      </div>
+  <Modal v-model:visible="Xisible" :closable="false" title="编辑预定信息" @ok="handleOk4">
+    <div class="bg-[#f5f7fe] mt-[10px]">
+      <Row style="padding-top: 10px; margin-left: 5px">
+        <Col><div class="font-bold text-[17px] h-[30px] leading-[30px]">预定地址</div> </Col>
+        <Col
+          ><div class="h-[30px] leading-[30px]">房源地址：{{ address }}</div>
+        </Col>
+        <Col
+          ><div class="h-[30px] leading-[30px]">预订人：{{ name }}/{{ sex }}/{{ phone }}</div>
+        </Col>
+        <Col
+          ><div class="h-[30px] leading-[30px]">预计入住日期：{{ data }}</div>
+        </Col>
+        <Col
+          ><div class="h-[30px] leading-[30px]">预计入住时长：{{ time }}</div>
+        </Col>
+      </Row>
+    </div>
+    <div class="mx-[10px] my-[10px]">
+      <Row>
+        <Col span="12">
+          <div>预定类型</div>
+          <Select
+            placeholder="请选择类型 "
+            style="border-bottom: 1px solid #d9d9d9; width: 80%"
+            :bordered="false"
+          />
+        </Col>
+        <Col span="12">
+          <div>预定入住日期</div>
+          <Input
+            class="ml-[5px]"
+            v-model:value="data"
+            style="border-bottom: 1px solid #d9d9d9; width: 80%"
+            :bordered="false"
+          />
+        </Col>
+        <Col span="24">
+          <div>预定入住时长</div>
+          <Input
+            v-model:value="time"
+            style="border-bottom: 1px solid #d9d9d9; width: 50%"
+            :bordered="false"
+          />
+        </Col>
+      </Row>
     </div>
   </Modal>
 </template>
 
 <script lang="ts" setup>
-  import { Popover, Button, Modal } from 'ant-design-vue';
+  import { Popover, Button, Modal, Row, Col, Select, Input } from 'ant-design-vue';
   import { defineProps, ref } from 'vue';
   import Icon from '/@/components/Icon';
   import { clientListResult } from '/@/api/contractManagement/Bookingmanagement/model/Bookingmanagement';
@@ -141,10 +181,17 @@
   const Disible = ref<boolean>(false);
   const Aisible = ref<boolean>(false);
   const QRisible = ref<boolean>(false);
+  const Xisible = ref<boolean>(false);
   const dataSource = ref<clientListResult[]>([]);
   const address = ref<string>();
   const people = ref<string>();
   const type = ref<number>();
+  const name = ref<string>();
+  const sex = ref<string>();
+  const phone = ref<string>();
+  const data = ref<string>();
+  const time = ref<string>();
+
   const props = defineProps({
     code: Number,
   });
@@ -154,9 +201,12 @@
     dataSource.value = [...res.result];
     address.value = res.result[0].Availability;
     type.value = res.result[0].status;
-    people.value = res.result[7].person;
-    console.log(res.result);
-
+    people.value = res.result[0].person;
+    name.value = res.result[0].name;
+    sex.value = res.result[0].sex;
+    phone.value = res.result[0].number;
+    data.value = res.result[0].createTime;
+    time.value = res.result[0].Duration;
     // console.log(res.result[0].Availability);
   });
 
@@ -179,21 +229,49 @@
     console.log(e);
     Aisible.value = false;
   };
+  const handleOk4 = (e: MouseEvent) => {
+    console.log(e);
+    Xisible.value = false;
+  };
 
   function fun() {
     visible.value = true;
+    Xisible.value = false;
+    Aisible.value = false;
+    Disible.value = false;
+    QRisible.value = false;
+  }
+
+  function edit() {
+    Xisible.value = true;
+    visible.value = false;
+    QRisible.value = false;
+    Disible.value = false;
+    Aisible.value = false;
   }
 
   function pay() {
     Aisible.value = true;
+    Xisible.value = false;
+    visible.value = false;
+    Disible.value = false;
+    QRisible.value = false;
   }
 
   function QR() {
     QRisible.value = true;
+    Xisible.value = false;
+    visible.value = false;
+    Aisible.value = false;
+    Disible.value = false;
   }
 
   function Delete() {
     Disible.value = true;
+    Xisible.value = false;
+    visible.value = false;
+    Aisible.value = false;
+    QRisible.value = false;
   }
 </script>
 

@@ -27,11 +27,7 @@
             <div class="flex flex-col mt-[15px]">
               <span class="text-[12px] text-[gray]">当前状态</span>
               <span class="text-[13px]">
-                <child-value :columns="columns">
-                  <template #Status="{ record }">
-                    <div>{{ Status[record.status] }}</div>
-                  </template>
-                </child-value>
+                {{ dict[dataSource.status] }}
               </span>
             </div>
           </div>
@@ -252,15 +248,17 @@
   import { Row, Col, Tabs, TabPane } from 'ant-design-vue';
   import { ref } from 'vue';
   import { getBookingmanagement } from '/@/api/contractManagement/Bookingmanagement/index';
-  import config from '../config';
+  import { getSysDict } from '/@/api/dict/dict';
 
   const dataSource = ref([]);
-  const columns = [...config.columns];
+  const dict = ref([]);
 
   getBookingmanagement().then((res) => {
-    dataSource.value = res.result[0];
-    console.log(dataSource.value);
+    dataSource.value = res.result[1];
 
+    getSysDict().then((res) => {
+      dict.value = res;
+    });
     // console.log(res.result[0].Availability);
   });
 </script>

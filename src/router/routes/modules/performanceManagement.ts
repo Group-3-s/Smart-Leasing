@@ -31,11 +31,19 @@ const performanceManagement: AppRouteModule = {
       },
     },
     {
-      path: 'PerformanceReview',
-      name: 'PerformanceReview',
-      component: () => import('/@/views/performanceManagement/PerformanceReview/index.vue'),
+      path: 'PerformanceApproval',
+      name: 'PerformanceApproval',
+      component: () => import('/@/views/performanceManagement/PerformanceApproval/index.vue'),
       meta: {
         title: '业绩审批',
+      },
+    },
+    {
+      path: 'MemberPermissions',
+      name: 'MemberPermissions',
+      component: () => import('/@/views/performanceManagement/MemberPermissions/Iindex.vue'),
+      meta: {
+        title: '成员权限',
       },
     },
   ],

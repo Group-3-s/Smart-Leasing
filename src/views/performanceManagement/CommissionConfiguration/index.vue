@@ -26,7 +26,12 @@
           <Button type="primary" @click="addCommissionShowModal">新增分佣配置</Button>
         </div>
         <div>
-          <Modal v-model:visible="addCommissionvisible" :closable="false" title="新增配置">
+          <Modal
+            v-model:visible="addCommissionvisible"
+            :closable="false"
+            title="新增配置"
+            @ok="commissionhandle"
+          >
             <addCommission />
           </Modal>
         </div>
@@ -47,6 +52,7 @@
               Button 
             </div>
           </template> -->
+          <!-- @click="actionShowModal" -->
           <template #action="">
             <div class="text-[#1989fa]">编辑</div>
           </template>
@@ -101,9 +107,18 @@
   };
 
   const value = ref<string | undefined>('项目1');
-  const addCommissionvisible = ref(false);
 
+  const addCommissionvisible = ref(false);
+  const commissionloading = ref<boolean>(false);
   const addCommissionShowModal = () => {
     addCommissionvisible.value = true;
+  };
+
+  const commissionhandle = () => {
+    commissionloading.value = true;
+    setTimeout(() => {
+      commissionloading.value = false;
+      addCommissionvisible.value = false;
+    }, 2000);
   };
 </script>

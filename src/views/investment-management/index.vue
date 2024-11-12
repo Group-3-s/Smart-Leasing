@@ -1,69 +1,71 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <PageWrapper>
-    <Card style="border-radius: 15px" :headStyle="{ borderBottom: 'unset' }">
-      <BasicTitle>
-        <div class="bg-blue-500 h-[20px] w-[5px] inline-block rounded-lg mr-[15px]"></div
-        ><span class="text-[14px] leading-[24px]"> 招商管理</span></BasicTitle
-      >
-      <div class="ant">
-        <Select
-          v-model:value="Value"
-          label-in-value
-          style="width: 120px"
-          :options="options"
-          @change="handleChange"
-        /><Button type="primary" @click="showDrawer">添加招商信息</Button>
-      </div>
-      <!-- 操作栏 -->
-      <div class="mb-[10px]">
-        <Tabs v-model:activeKey="activeKey">
-          <TabPane key="1" tab="私客" />
-          <TabPane key="2" tab="公客" />
-        </Tabs>
-        <div class="flex justify-right; w-[500px] ml-[70%]">
-          <Input placeholder="客户姓名/客户电话" />
-          <Icon icon="mynaui:download" class="mt-[5px] ml-[5px]" />
+  <div>
+    <PageWrapper>
+      <Card style="border-radius: 15px" :headStyle="{ borderBottom: 'unset' }">
+        <BasicTitle>
+          <div class="bg-blue-500 h-[20px] w-[5px] inline-block rounded-lg mr-[15px]"></div
+          ><span class="text-[14px] leading-[24px]"> 招商管理</span></BasicTitle
+        >
+        <div class="ant">
+          <Select
+            v-model:value="Value"
+            label-in-value
+            style="width: 120px"
+            :options="options"
+            @change="handleChange"
+          /><Button type="primary" @click="showDrawer">添加招商信息</Button>
         </div>
-      </div>
-      <!-- 表格主体 -->
-      <Table :dataSource="dataSource" :columns="columns">
-        <template #Status="{ record }">
-          <Button>{{ Status[record.status] }}</Button>
-        </template>
-        <template #Channel="{ record }">
-          <Button>{{ Channel[record.channel] }}</Button>
-        </template>
-        <template #caozuo="">
-          <Popover trigger="hover" placement="bottom">
-            <template #content>
-              <ul>
-                <li>添加提醒</li>
-                <li>跟进</li>
-                <li>指派</li>
-                <li>预定</li>
-                <li>签约</li>
-                <li>关闭</li>
-              </ul>
-            </template>
-            <Icon icon="mingcute:more-2-fill" @click.prevent />
-          </Popover>
-        </template>
-      </Table>
-      <Drawer
-        title="添加招商信息"
-        placement="bottom"
-        :closable="false"
-        :drawerStyle="{ width: '100%' }"
-        v-model:visible="open"
-        style="padding-left: 20vw"
-        :after-visible-change="afterOpenChange"
-        height="95vh"
-      >
-        <AddInvest />
-      </Drawer>
-    </Card>
-  </PageWrapper>
+        <!-- 操作栏 -->
+        <div class="mb-[10px]">
+          <Tabs v-model:activeKey="activeKey">
+            <TabPane key="1" tab="私客" />
+            <TabPane key="2" tab="公客" />
+          </Tabs>
+          <div class="flex justify-right; w-[500px] ml-[70%]">
+            <Input placeholder="客户姓名/客户电话" />
+            <Icon icon="mynaui:download" class="mt-[5px] ml-[5px]" />
+          </div>
+        </div>
+        <!-- 表格主体 -->
+        <Table :dataSource="dataSource" :columns="columns">
+          <template #Status="{ record }">
+            <Button>{{ Status[record.status] }}</Button>
+          </template>
+          <template #Channel="{ record }">
+            <Button>{{ Channel[record.channel] }}</Button>
+          </template>
+          <template #caozuo="">
+            <Popover trigger="hover" placement="bottom">
+              <template #content>
+                <ul>
+                  <li>添加提醒</li>
+                  <li>跟进</li>
+                  <li>指派</li>
+                  <li>预定</li>
+                  <li>签约</li>
+                  <li>关闭</li>
+                </ul>
+              </template>
+              <Icon icon="mingcute:more-2-fill" @click.prevent />
+            </Popover>
+          </template>
+        </Table>
+        <Drawer
+          title="添加招商信息"
+          placement="bottom"
+          :closable="false"
+          :drawerStyle="{ width: '100%' }"
+          v-model:visible="open"
+          style="padding-left: 20vw"
+          :after-visible-change="afterOpenChange"
+          height="95vh"
+        >
+          <AddInvest />
+        </Drawer>
+      </Card>
+    </PageWrapper>
+  </div>
 </template>
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';

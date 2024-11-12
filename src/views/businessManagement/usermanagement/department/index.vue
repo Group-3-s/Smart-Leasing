@@ -324,6 +324,9 @@
   const redactvisible = ref<boolean>(false);
   const redact = () => {
     redactvisible.value = true;
+    datavisible.value = false;
+    forvisible.value = false;
+    delevisible.value = false;
   };
   //员工详情
   const detailvisible = ref<boolean>(false);
@@ -334,16 +337,25 @@
   const datavisible = ref<boolean>(false);
   const datamigration = () => {
     datavisible.value = true;
+    forvisible.value = false;
+    delevisible.value = false;
+    redactvisible.value = false;
   };
   //禁用员工
   const forvisible = ref<boolean>(false);
   const forbidden = () => {
     forvisible.value = true;
+    delevisible.value = false;
+    redactvisible.value = false;
+    datavisible.value = false;
   };
   //删除部门
   const delevisible = ref<boolean>(false);
   const deleteploy = () => {
     delevisible.value = true;
+    redactvisible.value = false;
+    datavisible.value = false;
+    forvisible.value = false;
   };
   //取消禁用员工
   const canforvisible = ref<boolean>(false);

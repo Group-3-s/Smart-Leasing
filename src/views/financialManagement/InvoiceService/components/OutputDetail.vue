@@ -1,4 +1,5 @@
 <!-- eslint-disable vue/valid-v-slot -->
+<!-- eslint-disable vue/valid-vSlot -->
 <!-- eslint-disable vue/no-use-v-if-with-v-for -->
 <!-- eslint-disable vue/no-useless-template-attributes -->
 <template>
@@ -84,17 +85,17 @@
             </Row>
           </Col>
           <Col :span="24">
-            <div class="flex absolute top-[15px] right-[25px]">
-              <span class="text-[#2f92fa] flex text-[13px]">
-                <Icon icon="ant-design:disconnectOutlined" style="color: #2f92fa" />
-                解绑账号 </span
-              >&nbsp;&nbsp;&nbsp;
-              <span class="text-[#2f92fa] flex text-[13px]">
-                <Icon icon="fluent:prohibited-24-filled" style="color: #2f92fa" />禁用
-              </span>
-            </div>
             <Tabs v-model:activeKey="activeKey" @change="fun">
               <TabPane key="1">
+                <div class="flex absolute top-[15px] right-[25px]">
+                  <span class="text-[#2f92fa] flex text-[13px]">
+                    <Icon icon="ant-design:disconnectOutlined" style="color: #2f92fa" />
+                    解绑账号 </span
+                  >&nbsp;&nbsp;&nbsp;
+                  <span class="text-[#2f92fa] flex text-[13px]">
+                    <Icon icon="fluent:prohibited-24-filled" style="color: #2f92fa" />禁用
+                  </span>
+                </div>
                 <template #tab>
                   <span class="text-[13px] flex"><Icon icon="f7:menu" />基本信息 </span>
                 </template>
@@ -162,7 +163,7 @@
                     <div class="flex flex-col ml-[20px]">
                       <span class="text-[gray] text-[13px] my-[10px]">适用门店</span>
                       <Select
-                        a-select
+                        aSelect
                         v-model:value="selectValue"
                         mode="multiple"
                         style="width: 97%"
@@ -234,6 +235,12 @@
                 </Row>
               </TabPane>
               <TabPane key="2">
+                <div class="flex absolute top-[15px] right-[25px]">
+                  <span class="text-[#2f92fa] flex text-[13px]">
+                    <Icon icon="mingcute:add-line" style="color: #2f92fa" />
+                    添加商品
+                  </span>
+                </div>
                 <template #tab>
                   <span class="text-[13px] flex"
                     ><Icon icon="ion:newspaper-outline" />开票商品信息
@@ -241,25 +248,134 @@
                 </template>
                 <Row :gutter="[10, 10]">
                   <Col :span="24">
-                    <div class="text-[#272727] bg-[#f7f8fb]"
+                    <div
+                      class="w-[97%] h-[25px] leading-[25px] text-[#383839] text-[13px] bg-[#f7f8fb] pl-[10px] ml-[10px] rounded-[5px]"
                       >开票时仅支持对已配置的商品进行申请和开票，请仔细核对</div
                     >
+                  </Col>
+                  <Col :lg="{ span: 12 }">
+                    <div class="flex ml-[20px] mt-[10px]">
+                      <span class="text-[16px]">商品信息</span>
+                    </div>
+                  </Col>
+                  <Col :lg="{ span: 12 }">
+                    <InputSearch
+                      v-model:value="inputSearchValue"
+                      placeholder="商品名称/费用科目"
+                      @search="onSearch"
+                    >
+                      <template #enterButton>
+                        <Button>
+                          <Icon
+                            icon="material-symbols:search"
+                            style="width: 20px; height: 20px; color: gray"
+                          />
+                        </Button>
+                      </template>
+                    </InputSearch>
+                  </Col>
+                  <Col :lg="{ span: 24 }">
+                    <Table
+                      :dataSource="productinformationValue"
+                      :columns="productInformation.columns"
+                    >
+                      <template #operation="">
+                        <Popover trigger="click">
+                          <template #content>
+                            <p>禁止</p>
+                          </template>
+                          <Icon icon="mingcute:more-2-fill" />
+                        </Popover>
+                      </template>
+                    </Table>
+                  </Col>
+                  <Col :span="24">
+                    <div style="border-top: 1px gray dashed; font-size: 16px">
+                      <span class="text-[gray] ml-[20px]"
+                        >{{ outputSettingValue[0].authorizedBindingPerson }}创建于{{
+                          outputSettingValue[0].bindingTime
+                        }}&nbsp;&nbsp; |
+                      </span>
+                      <span class="text-[gray] mr-[20px]">
+                        &nbsp;&nbsp;{{ outputSettingValue[0].authorizedBindingPerson }}更新于{{
+                          outputSettingValue[0].bindingTime
+                        }}</span
+                      >
+                    </div>
                   </Col>
                 </Row>
               </TabPane>
               <TabPane key="3">
                 <template #tab>
                   <span class="text-[13px] flex"
-                    ><Icon icon="material-symbols:smart-toy-sharp" />智能决策</span
+                    ><Icon icon="materialSymbols:smart-toySharp" />智能决策</span
                   >
                 </template>
-                智能决策
+                <Row :gutter="[10, 10]">
+                  <Col :span="24">
+                    <div
+                      class="ml-[20px] pl-[10px] text-[#141414] text-[15px] border-l-[#0a87f8] border-l-[5px] border-l-solid rounded-[2px]"
+                      >易票云账号开发票时，收款人、复核人、开票人的传参规则</div
+                    >
+                  </Col>
+                  <Col :span="23">
+                    <div
+                      class="text-[#817e95] text-[12px] ml-[20px] mt-[10px] p-[10px] bg-[#f7f8fb]"
+                    >
+                      <p>
+                        ①采用易票云配置：开发票时，收款人、复核人、开票人的姓名，采用易票云（航信）账号中配置的姓名为准，若易票云（航信）没有配置对应姓名，则不显示；
+                      </p>
+                      <p>
+                        ②采用寓盟配置：开发票时，收款人、复核人、开票人的姓名，采用寓盟系统的实际收款人、复核人及开票人（收款人与复核人为收款人，开票人为确认开票人）。
+                      </p>
+                    </div>
+                  </Col>
+                  <Col :span="18">
+                    <RadioGroup v-model:value="radioValue" style="margin-left: 20px">
+                      <Radio :value="1">采用易票云配置</Radio>
+                      <Radio :value="2">采用寓盟配置</Radio>
+                    </RadioGroup>
+                  </Col>
+                  <Col :span="24">
+                    <Button type="primary" style="margin-left: 20px; margin-top: 10px">保存</Button>
+                  </Col>
+                  <Col :span="24">
+                    <div style="border-top: 1px gray dashed; font-size: 16px">
+                      <span class="text-[gray] ml-[20px]"
+                        >{{ outputSettingValue[0].authorizedBindingPerson }}创建于{{
+                          outputSettingValue[0].bindingTime
+                        }}&nbsp;&nbsp; |
+                      </span>
+                      <span class="text-[gray] mr-[20px]">
+                        &nbsp;&nbsp;{{ outputSettingValue[0].authorizedBindingPerson }}更新于{{
+                          outputSettingValue[0].bindingTime
+                        }}</span
+                      >
+                    </div>
+                  </Col>
+                </Row>
               </TabPane>
             </Tabs>
           </Col>
         </Row>
       </Modal>
-      <p>更多</p>
+
+      <Popover title="更多" trigger="click">
+        <template #content>
+          <p @click="Unbind">解绑</p>
+          <Modal
+            v-model:visible="visible"
+            title="Modal"
+            ok-text="确认"
+            cancel-text="取消"
+            @ok="UnbindHideModal"
+          />
+          <p>关联</p>
+          <p>添加</p>
+          <p>禁用</p>
+        </template>
+        <p>更多</p>
+      </Popover>
     </template>
     <template v-if="props.code === 70012" #content>
       <p @click="outputDetailOpen">查看</p>
@@ -292,7 +408,7 @@
             </Row>
           </Col>
           <Col :lg="{ span: 7 }" :md="{ span: 7 }" :sm="{ span: 12 }">
-            <Row style="display: flex" class="lg:ml-[0px] md:ml-[25px] sm:ml-[25px]">
+            <Row style="display: flex" class="lg:ml-[15px] md:ml-[25px] sm:ml-[25px]">
               <div
                 class="w-[25px] h-[25px] rounded-[12.5px] bg-[#e6f3fe] pt-[9px] mr-[10px] md:mt-[15px] sm:mt-[7px] lg:mt-[15px]"
               >
@@ -342,17 +458,17 @@
             </Row>
           </Col>
           <Col :span="24">
-            <div class="flex absolute top-[15px] right-[25px]">
-              <span class="text-[#2f92fa] flex text-[13px]">
-                <Icon icon="ant-design:disconnectOutlined" style="color: #2f92fa" />
-                解绑账号 </span
-              >&nbsp;&nbsp;&nbsp;
-              <span class="text-[#2f92fa] flex text-[13px]">
-                <Icon icon="fluent:prohibited-24-filled" style="color: #2f92fa" />禁用
-              </span>
-            </div>
             <Tabs v-model:activeKey="activeKey" @change="fun">
               <TabPane key="1">
+                <div class="flex absolute top-[15px] right-[25px]">
+                  <span class="text-[#2f92fa] flex text-[13px]">
+                    <Icon icon="ant-design:disconnectOutlined" style="color: #2f92fa" />
+                    解绑账号 </span
+                  >&nbsp;&nbsp;&nbsp;
+                  <span class="text-[#2f92fa] flex text-[13px]">
+                    <Icon icon="fluent:prohibited-24-filled" style="color: #2f92fa" />禁用
+                  </span>
+                </div>
                 <template #tab>
                   <span class="text-[13px] flex"><Icon icon="f7:menu" />基本信息 </span>
                 </template>
@@ -420,7 +536,7 @@
                     <div class="flex flex-col ml-[20px]">
                       <span class="text-[gray] text-[13px] my-[10px]">适用门店</span>
                       <Select
-                        a-select
+                        aSelect
                         v-model:value="selectValue"
                         mode="multiple"
                         style="width: 97%"
@@ -492,6 +608,12 @@
                 </Row>
               </TabPane>
               <TabPane key="2">
+                <div class="flex absolute top-[15px] right-[25px]">
+                  <span class="text-[#2f92fa] flex text-[13px]">
+                    <Icon icon="mingcute:add-line" style="color: #2f92fa" />
+                    添加商品
+                  </span>
+                </div>
                 <template #tab>
                   <span class="text-[13px] flex"
                     ><Icon icon="ion:newspaper-outline" />开票商品信息
@@ -499,19 +621,112 @@
                 </template>
                 <Row :gutter="[10, 10]">
                   <Col :span="24">
-                    <div class="text-[#272727] bg-[#f7f8fb]"
+                    <div
+                      class="w-[97%] h-[25px] leading-[25px] text-[#383839] text-[13px] bg-[#f7f8fb] pl-[10px] ml-[10px] rounded-[5px]"
                       >开票时仅支持对已配置的商品进行申请和开票，请仔细核对</div
                     >
+                  </Col>
+                  <Col :lg="{ span: 12 }">
+                    <div class="flex ml-[20px] mt-[10px]">
+                      <span class="text-[16px]">商品信息</span>
+                    </div>
+                  </Col>
+                  <Col :lg="{ span: 12 }">
+                    <InputSearch
+                      v-model:value="inputSearchValue"
+                      placeholder="商品名称/费用科目"
+                      @search="onSearch"
+                    >
+                      <template #enterButton>
+                        <Button>
+                          <Icon
+                            icon="material-symbols:search"
+                            style="width: 20px; height: 20px; color: gray"
+                          />
+                        </Button>
+                      </template>
+                    </InputSearch>
+                  </Col>
+                  <Col :lg="{ span: 24 }">
+                    <Table
+                      :dataSource="productinformationValue"
+                      :columns="productInformation.columns"
+                    >
+                      <template #operation="">
+                        <Popover trigger="click">
+                          <template #content>
+                            <p>禁止</p>
+                          </template>
+                          <Icon icon="mingcute:more-2-fill" />
+                        </Popover>
+                      </template>
+                    </Table>
+                  </Col>
+                  <Col :span="24">
+                    <div style="border-top: 1px gray dashed; font-size: 16px">
+                      <span class="text-[gray] ml-[20px]"
+                        >{{ outputSettingValue[1].authorizedBindingPerson }}创建于{{
+                          outputSettingValue[1].bindingTime
+                        }}&nbsp;&nbsp; |
+                      </span>
+                      <span class="text-[gray] mr-[20px]">
+                        &nbsp;&nbsp;{{ outputSettingValue[1].authorizedBindingPerson }}更新于{{
+                          outputSettingValue[1].bindingTime
+                        }}</span
+                      >
+                    </div>
                   </Col>
                 </Row>
               </TabPane>
               <TabPane key="3">
                 <template #tab>
                   <span class="text-[13px] flex"
-                    ><Icon icon="material-symbols:smart-toy-sharp" />智能决策</span
+                    ><Icon icon="materialSymbols:smart-toySharp" />智能决策</span
                   >
                 </template>
-                智能决策
+                <Row :gutter="[10, 10]">
+                  <Col :span="24">
+                    <div
+                      class="ml-[20px] pl-[10px] text-[#141414] text-[15px] border-l-[#0a87f8] border-l-[5px] border-l-solid rounded-[2px]"
+                      >易票云账号开发票时，收款人、复核人、开票人的传参规则</div
+                    >
+                  </Col>
+                  <Col :span="23">
+                    <div
+                      class="text-[#817e95] text-[12px] ml-[20px] mt-[10px] p-[10px] bg-[#f7f8fb]"
+                    >
+                      <p>
+                        ①采用易票云配置：开发票时，收款人、复核人、开票人的姓名，采用易票云（航信）账号中配置的姓名为准，若易票云（航信）没有配置对应姓名，则不显示；
+                      </p>
+                      <p>
+                        ②采用寓盟配置：开发票时，收款人、复核人、开票人的姓名，采用寓盟系统的实际收款人、复核人及开票人（收款人与复核人为收款人，开票人为确认开票人）。
+                      </p>
+                    </div>
+                  </Col>
+                  <Col :span="18">
+                    <RadioGroup v-model:value="radioValue" style="margin-left: 20px">
+                      <Radio :value="1">采用易票云配置</Radio>
+                      <Radio :value="2">采用寓盟配置</Radio>
+                    </RadioGroup>
+                  </Col>
+                  <Col :span="24">
+                    <Button type="primary" style="margin-left: 20px; margin-top: 10px">保存</Button>
+                  </Col>
+                  <Col :span="24">
+                    <div style="border-top: 1px gray dashed; font-size: 16px">
+                      <span class="text-[gray] ml-[20px]"
+                        >{{ outputSettingValue[1].authorizedBindingPerson }}创建于{{
+                          outputSettingValue[1].bindingTime
+                        }}&nbsp;&nbsp; |
+                      </span>
+                      <span class="text-[gray] mr-[20px]">
+                        &nbsp;&nbsp;{{ outputSettingValue[1].authorizedBindingPerson }}更新于{{
+                          outputSettingValue[1].bindingTime
+                        }}</span
+                      >
+                    </div>
+                  </Col>
+                </Row>
               </TabPane>
             </Tabs>
           </Col>
@@ -679,7 +894,7 @@
                     <div class="flex flex-col ml-[20px]">
                       <span class="text-[gray] text-[13px] my-[10px]">适用门店</span>
                       <Select
-                        a-select
+                        aSelect
                         v-model:value="selectValue"
                         mode="multiple"
                         style="width: 100%"
@@ -737,7 +952,7 @@
                     </div>
                   </Col>
                   <Col :span="24">
-                    <div style="border-top: 1px gray dashed; font-size: 16px">
+                    <div style="border-top: 1px gray dashed; fontSize: 16px">
                       <span class="text-[gray] ml-[20px]"
                         >{{ outputSettingValue1[1].authorizedBindingPerson }}创建于{{
                           outputSettingValue1[1].bindingTime
@@ -769,7 +984,7 @@
               <TabPane key="3">
                 <template #tab>
                   <span class="text-[13px] flex"
-                    ><Icon icon="material-symbols:smart-toy-sharp" />智能决策</span
+                    ><Icon icon="materialSymbols:smart-toySharp" />智能决策</span
                   >
                 </template>
                 智能决策
@@ -784,18 +999,35 @@
   </Popover>
 </template>
 <script setup>
-  import { Modal, Popover, Col, Table, Button, Row, TabPane, Tabs, Select } from 'ant-design-vue';
-
+  import {
+    Modal,
+    Popover,
+    Col,
+    Table,
+    Button,
+    Row,
+    TabPane,
+    Tabs,
+    Select,
+    InputSearch,
+    RadioGroup,
+    Radio,
+  } from 'ant-design-vue';
+  import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
   import { Icon } from '@iconify/vue';
   import { defineProps } from 'vue';
   import { getFinancialData } from '/@/api/financialManagement';
   import { ref } from 'vue';
   import { getSysDict } from '/@/api/sys/dict';
+  import productInformation from './productInformation';
+  const activeKey = ref('1');
   const outputDetailValue = ref();
   const openingBankValue = ref();
   const outputSettingValue = ref();
-
+  const inputSearchValue = ref('');
   const financialDict = ref();
+  const productinformationValue = ref();
+  const radioValue = ref(1);
   const props = defineProps({ code: Number });
   getSysDict()
     .then((res) => {
@@ -810,6 +1042,7 @@
       outputDetailValue.value = res.outputdetail;
       openingBankValue.value = res.openingBank.openingBank;
       outputSettingValue.value = res.outputSetting.outputSetting;
+      productinformationValue.value = res.productinformation.productinformation;
       console.log(res);
     })
     .catch((err) => {
@@ -865,4 +1098,18 @@
       label: '江汉路开发新区',
     },
   ]);
+
+  const UnbindVisible = ref(false);
+  const Unbind = () => {
+    Modal.confirm({
+      title: '确定要解绑[易票云（航信平台-91420100MA4KNYGF5M）的开票账号吗？]',
+      icon: createVNode(ExclamationCircleOutlined),
+      content: '解绑后，该主体将无法实现云开票，请知晓',
+      okText: '确认',
+      cancelText: '取消',
+    });
+  };
+  const UnbindHideModal = () => {
+    UnbindVisible.value = false;
+  };
 </script>

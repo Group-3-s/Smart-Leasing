@@ -28,4 +28,3 @@ export default [
     },
   },
 ] as MockMethod[];
-// mock user login

@@ -143,6 +143,28 @@ function createOutputSetting() {
     ],
   };
 }
+function createProductInformation() {
+  return {
+    productinformation: [
+      {
+        id: 1,
+        status: '在用',
+        cost_count: '预定定金',
+        product_name: '预定定金',
+        tax_classification_code: 'aaaa2435645646',
+        commodity_tax_rate: '@integer(0,10)%',
+      },
+      {
+        id: 2,
+        status: '在用',
+        cost_count: '房屋租金',
+        product_name: '公寓楼租金',
+        tax_classification_code: '3040502029902000000',
+        commodity_tax_rate: '@integer(0,10)%',
+      },
+    ],
+  };
+}
 // function createFinancialData() {
 //   return [
 //     {
@@ -190,6 +212,9 @@ export default [
         },
         openingBank: {
           ...createOpeningBank(),
+        },
+        productinformation: {
+          ...createProductInformation(),
         },
       });
     },
